@@ -35,7 +35,7 @@ Le site est simple, moderne et optimisé pour une navigation fluide.
 ## 🚀 Déploiement
 
 Le site est hébergé gratuitement via **GitHub Pages**.  
-🔗 Lien du site : [https://votre-utilisateur.github.io/lumi-coffee-service](https://votre-utilisateur.github.io/lumi-coffee-service)  
+🔗 Lien du site : [-https://k-boubekeur.github.io/lumi-coffee-service/](https://k-boubekeur.github.io/lumi-coffee-service/)  
 *(Remplacez le lien par le lien réel de votre dépôt déployé.)*
 
 ## 🛠️ Technologies utilisées
