@@ -1,0 +1,989 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumi Coffee Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Pacifico&display=swap');
+        
+        :root {
+            --matcha-green: #a9ce8c;
+            --strawberry-pink: #efbdbd;
+            --latte-cream: #f5e8c7;
+            --coffee-brown: #d2b48c;
+            --chocolate: #bd9c85;
+            --sakura-pink: #ffebee;
+            --croissant: #e3b877;
+            --petit-pain: #e4b080;
+            --honey-cookie: #eed18b;
+            --mochi: #caeef3;
+            --cheesecake: #e5dcbd;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #f1e1ce;
+            color: #5a4a42;
+            overflow-x: hidden;
+        }
+        
+        /*the title designjhx*/
+        header {
+            background-color: #f5f5f5;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-color: #a38f6a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .logo::before {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #584338;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform: rotate(-20deg);
+        }
+        
+        .logo::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 30px;
+            background-color: #a18e69;
+            border-radius: 50%;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 
+                15px -10px 0 0 #a38f6a,
+                -15px -10px 0 0 #a38f6a;
+        }
+        
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: #8c6a5a;
+            text-align: center;
+            margin-left: 15px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav li {
+            margin: 0 15px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #8c6a5a;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover {
+            background-color: #e8d5b5;
+            color: #5a4a42;
+        }
+        
+        /*le contenu */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .intro {
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+            background-color: rgba(255,255,255,0.7);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .intro::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23a38f6a" d="M50 0 Q60 40 50 80 Q40 40 50 0" opacity="0.2"/></svg>');
+            background-repeat: no-repeat;
+            transform: rotate(30deg);
+            z-index: -1;
+        }
+        
+        .intro h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #8c6a5a;
+        }
+        
+        .intro p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Recipe Categories */
+        .categories {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 10px 20px;
+            margin: 5px 10px;
+            border: none;
+            border-radius: 25px;
+            background-color: #e8d5b5;
+            color: #5a4a42;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background-color: #8c6a5a;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* maintenant ici j'ai mis les recettes*/
+        .recipes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .recipe-card {
+            background-color: rgb(253, 243, 239);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .recipe-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .recipe-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .recipe-image::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+        }
+        
+        .recipe-content {
+            padding: 20px;
+        }
+        
+        .recipe-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #5a4a42;
+        }
+        
+        .recipe-description {
+            color: #7a6a62;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .recipe-details {
+            display: none;
+            padding: 0 20px 20px;
+        }
+        
+        .recipe-details h3 {
+            margin: 15px 0 10px;
+            color: #8c6a5a;
+            font-size: 1.2rem;
+        }
+        
+        .recipe-details ul, .recipe-details ol {
+            margin-left: 20px;
+            color: #7a6a62;
+            line-height: 1.6;
+        }
+        
+        .recipe-details li {
+            margin-bottom: 8px;
+        }
+        
+        .toggle-recipe {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #e8d5b5;
+            border: none;
+            color: #5a4a42;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 0 0 15px 15px;
+        }
+        
+        .toggle-recipe:hover {
+            background-color: #d5c2a2;
+        }
+        
+        .toggle-recipe i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .recipe-card.active .toggle-recipe i {
+            transform: rotate(180deg);
+        }
+        
+        /* ici j'ai mis pour chaque recette sa decoration individuelement */
+        .matcha .recipe-image {
+            background-color: var(--matcha-green);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%237d9f60" d="M30,10 Q50,5 70,10 Q90,20 80,40 Q70,60 50,65 Q30,60 20,40 Q10,20 30,10" opacity="0.2"/></svg>'), 
+                              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%237d9f60" d="M10,30 Q5,50 10,70 Q20,90 40,80 Q60,70 65,50 Q60,30 40,20 Q20,10 10,30" opacity="0.2"/></svg>');
+            background-size: 100px, 80px;
+            background-position: 20% 30%, 70% 60%;
+        }
+        
+        .strawberry-matcha .recipe-image {
+            background-color: var(--strawberry-pink);
+            background-image: radial-gradient(circle, #ff8a8a 10%, transparent 10%), 
+                              radial-gradient(circle, #ff8a8a 10%, transparent 10%);
+            background-size: 30px 30px;
+            background-position: 20% 40%, 70% 60%;
+        }
+        
+        .iced-latte .recipe-image {
+            background-color: var(--latte-cream);
+            background-image: linear-gradient(45deg, #d2b48c 25%, transparent 25%, transparent 75%, #d2b48c 75%, #d2b48c), 
+                              linear-gradient(45deg, #d2b48c 25%, transparent 25%, transparent 75%, #d2b48c 75%, #d2b48c);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            opacity: 0.3;
+        }
+        
+        .iced-coffee .recipe-image {
+            background-color: var(--coffee-brown);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%235a4a42" opacity="0.1"/></svg>');
+            background-size: 80px;
+            background-position: center;
+        }
+        
+        .hot-latte .recipe-image {
+            background-color: var(--latte-cream);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23d2b48c" d="M30,50 Q50,30 70,50 Q50,70 30,50" opacity="0.3"/></svg>');
+            background-size: 100px;
+            background-position: center;
+        }
+        
+        .hot-chocolate .recipe-image {
+            background-color: var(--chocolate);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%239c6a42" d="M20,20 L80,20 L70,80 L30,80 Z" opacity="0.2"/></svg>');
+            background-size: 80px;
+            background-position: center;
+        }
+        
+        .iced-sakura-tea .recipe-image {
+            background-color: var(--sakura-pink);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff8a8a" d="M50,10 Q60,40 50,70 Q40,40 50,10" opacity="0.3"/></svg>'), 
+                              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff8a8a" d="M50,10 Q60,40 50,70 Q40,40 50,10" opacity="0.3"/></svg>');
+            background-size: 60px, 40px;
+            background-position: center ;
+        }
+        
+        .croissant .recipe-image {
+            background-color: var(--croissant);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23d2b48c" d="M30,50 Q50,20 70,50 Q50,80 30,50" opacity="0.3"/></svg>');
+            background-size: 120px;
+            background-position: center;
+        }
+        
+        .petit-pain .recipe-image {
+            background-color: var(--petit-pain);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="40" ry="20" fill="%23c48a8a" opacity="0.2"/></svg>');
+            background-size: 100px;
+            background-position: center;
+        }
+        
+        .korean-honey-cookie .recipe-image {
+            background-color: var(--honey-cookie);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="%23d2b48c" opacity="0.2"/></svg>'), 
+                              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23d2b48c" d="M50,20 L70,80 L30,80 Z" opacity="0.2"/></svg>');
+            background-size: 60px, 40px;
+            background-position: 30% 40%, 70% 60%;
+        }
+        
+        .mochi .recipe-image {
+            background-color: var(--mochi);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%2386d0d9" opacity="0.2"/></svg>');
+            background-size: 100px;
+            background-position: center;
+        }
+        
+        .cheesecake .recipe-image {
+            background-color: var(--cheesecake);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" fill="%23d2b48c" opacity="0.2"/></svg>');
+            background-size: 80px;
+            background-position: center;
+        }
+        
+        /* maintenant la partie Footer */
+        footer {
+            background-color: #8c6a5a;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .social-icons {
+            margin: 20px 0;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: #e8d5b5;
+            transform: translateY(-3px);
+        }
+        
+        /* et ici l'nimations */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @media (max-width: 768px) {
+            .recipes-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+        <div class="logo"></div>
+            <h1>Lumi Coffee Service</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#drinks">Drinks</a></li>
+                <li><a href="#desserts">Desserts</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <section class="intro" id="about">
+            <h2>Welcome to Lumi Coffee Service</h2>
+            <p>Discover the art of perfect coffee and delightful desserts with our carefully crafted recipes. Whether you're a matcha enthusiast or a latte lover, we have something special for every palate. Our recipes are designed to bring café-quality experiences to your home kitchen.</p>
+        </section>
+        
+        <div class="categories">
+            <button class="category-btn active" data-category="all">All Recipes</button>
+            <button class="category-btn" data-category="drinks">Drinks</button>
+            <button class="category-btn" data-category="desserts">Desserts</button>
+        </div>
+        
+        <h2 id="drinks" style="margin: 40px 0 20px; color: #8c6a5a;">Coffee & Tea Recipes</h2>
+        <div class="recipes-container">
+            <!-- Matcha -->
+            <div class="recipe-card matcha" data-category="drinks">
+                <div class="recipe-image">
+                    <!-- Background set via CSS -->
+                </div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Traditional Matcha</h3>
+                    <p class="recipe-description">A vibrant green tea packed with antioxidants and a unique umami flavor.</p>
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul>
+                            <li>1 tsp high-quality matcha powder (ceremonial grade)</li>
+                            <li>2 oz hot water (175°F/80°C)</li>
+                            <li>Optional: 1-2 tsp sweetener (honey, sugar, or syrup)</li>
+                            <li>Optional: 4 oz steamed milk for matcha latte</li>
+                        </ul>
+                        <h3>Instructions</h3>
+                        <ol>
+                            <li>Sift matcha powder into a bowl to remove clumps.</li>
+                            <li>Add hot water and whisk vigorously in a "W" or "M" motion until frothy (about 15-30 seconds).</li>
+                            <li>For traditional usucha (thin tea), enjoy as is. For matcha latte, add steamed milk.</li>
+                            <li>Optional: Add sweetener to taste.</li>
+                        </ol>
+                        <h3>Tips</h3>
+                        <p>Use a bamboo whisk (chasen) for best results. Water temperature is crucial - boiling water will make matcha bitter.</p>
+                    </div>
+                    <button class="toggle-recipe">View Recipe <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+            
+            <!-- Strawberry Matcha -->
+            <div class="recipe-card strawberry-matcha" data-category="drinks">
+                <div class="recipe-image">
+                    <!-- Background set via CSS -->
+                </div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Strawberry Matcha Latte</h3>
+                    <p class="recipe-description">A delightful layered drink with sweet strawberry and earthy matcha flavors.</p>
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul>
+                            <li>1 tsp matcha powder</li>
+                            <li>1/4 cup hot water</li>
+                            <li>1/2 cup fresh strawberries</li>
+                            <li>1 tbsp honey or sugar</li>
+                            <li>1/2 cup milk (dairy or plant-based)</li>
+                            <li>Ice cubes</li>
+                            <li>Optional: whipped cream for topping</li>
+                        </ul>
+                        <h3>Instructions</h3>
+                        <ol>
+                            <li>Prepare matcha: whisk matcha powder with hot water until frothy. Let cool.</li>
+                            <li>Make strawberry puree: blend strawberries with sweetener until smooth.</li>
+                            <li>Assemble: in a glass, add ice, then strawberry puree, then milk, and finally matcha on top.</li>
+                            <li>Optional: top with whipped cream and strawberry slices.</li>
+                        </ol>
+                        <h3>Tips</h3>
+                        <p>For a smoother texture, strain the strawberry puree. Pour matcha slowly over the back of a spoon to create distinct layers.</p>
+                    </div>
+                    <button class="toggle-recipe">View Recipe <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+            
+            <!-- Iced Latte -->
+            <div class="recipe-card iced-latte" data-category="drinks">
+                <div class="recipe-image">
+                    <!-- Background set via CSS -->
+                </div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Iced Latte</h3>
+                    <p class="recipe-description">A refreshing coffee drink perfect for warm days.</p>
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul>
+                            <li>2 shots espresso (or 1/2 cup strong brewed coffee)</li>
+                            <li>1 cup milk (whole, skim, or plant-based)</li>
+                            <li>Ice cubes</li>
+                            <li>Optional: 1-2 tsp sweetener (simple syrup works best)</li>
+                            <li>Optional: flavor syrups (vanilla, caramel, etc.)</li>
+                        </ul>
+                        <h3>Instructions</h3>
+                        <ol>
+                            <li>Brew espresso or strong coffee and let it cool to room temperature.</li>
+                            <li>Fill a glass with ice cubes.</li>
+                            <li>Add milk and sweetener/flavoring if using.</li>
+                            <li>Pour cooled coffee over the milk.</li>
+                            <li>Stir gently and enjoy immediately.</li>
+                        </ol>
+                        <h3>Tips</h3>
+                        <p>For a stronger coffee flavor, make coffee ice cubes to prevent dilution. Cold brew concentrate also works wonderfully for iced lattes.</p>
+                    </div>
+                    <button class="toggle-recipe">View Recipe <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+            
+            <!-- Iced Coffee -->
+            <div class="recipe-card iced-coffee" data-category="drinks">
+                <div class="recipe-image">
+                    <!-- Background set via CSS -->
+                </div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Iced Coffee</h3>
+                    <p class="recipe-description">A classic chilled coffee beverage with endless customization options.</p>
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul>
+                            <li>1 cup strong brewed coffee, cooled</li>
+                            <li>Ice cubes</li>
+                            <li>Optional: milk or cream to taste</li>
+                            <li>Optional: sweetener (sugar, simple syrup, etc.)</li>
+                            <li>Optional: flavorings (vanilla extract, cinnamon, etc.)</li>
+                        </ul>
+                        <h3>Instructions</h3>
+                        <ol>
+                            <li>Brew coffee using your preferred method (stronger than normal)</li>
+                            <li>Allow coffee to cool to room temperature, then refrigerate.</li>
+                            <li>Fill a glass with ice cubes.</li>
+                            <li>Pour chilled coffee over ice.</li>
+                            <li>Add milk and sweetener as desired.</li>
+                            <li>Stir and enjoy.</li>
+                        </ol>
+                        <h3>Tips</h3>
+                        <p>For best results, cold brew coffee overnight (12-24 hours) for a smoother, less acidic taste. Coffee ice cubes prevent dilution.</p>
+                    </div>
+                    <button class="toggle-recipe">View Recipe <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+            
+            <!-- Hot Latte -->
+            <div class="recipe-card hot-latte" data-category="drinks">
+                <div class="recipe-image">
+                    <!-- Background set via CSS -->
+                </div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Hot Latte</h3>
+                    <p class="recipe-description">A creamy espresso drink with velvety steamed milk.</p>
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul>
+                            <li>1-2 shots espresso (about 1-2 oz)</li>
+                            <li>6-8 oz milk (whole milk creates best microfoam)</li>
+                            <li>Optional: sweetener to taste</li>
+                            <li>Optional: flavor syrups (vanilla, caramel, etc.)</li>
+                        </ul>
+                        <h3>Instructions</h3>
+                        <ol>
+                            <li>Brew espresso into a pre-warmed cup.</li>
+                            <li>Steam milk to about 150°F (65°C), creating microfoam.</li>
+                            <li>Pour steamed milk into espresso, holding back foam with a spoon.</li>
+                            <li>Spoon remaining foam on top.</li>
+                            <li>Optional: add sweetener or flavorings before adding milk.</li>
+                        </ol>
+                        <h3>Tips</h3>
+                        <p>For home preparation without an espresso machine: make strong coffee (Moka pot works well), heat milk separately, and froth with a French press or whisk. Pour from slightly higher to create layers.</p>
+                    </div>
+                    <button class="toggle-recipe">View Recipe <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+            
+            <!-- Hot Chocolate -->
+            <div class="recipe-card hot-chocolate" data-category="drinks">
+                <div class="recipe-image">
+                    <!-- Background set via CSS -->
+                </div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Rich Hot Chocolate</h3>
+                    <p class="recipe-description">A decadent chocolate drink made with real chocolate.</p>
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul>
+                            <li>2 cups milk (whole milk recommended)</li>
+                            <li>4 oz high-quality dark chocolate (60-70% cacao), chopped</li>
+                            <li>1 tbsp cocoa powder</li>
+                            <li>1-2 tbsp sugar (optional, to taste)</li>
+                            <li>1/4 tsp vanilla extract</li>
+                            <li>Pinch of salt</li>
+                            <li>Optional toppings: whipped cream, marshmallows, chocolate shavings</li>
+                        </ul>
+                        <h3>Instructions</h3>
+                        <ol>
+                            <li>In a saucepan, heat milk over medium heat until steaming but not boiling.</li>
+                            <li>Whisk in cocoa powder until dissolved.</li>
+                            <li>Add chopped chocolate, stirring constantly until melted and smooth.</li>
+                            <li>Stir in sugar (if using), vanilla, and salt.</li>
+                            <li>Continue heating until desired temperature is reached.</li>
+                            <li>Pour into mugs and add toppings if desired.</li>
+                        </ol>
+                        <h3>Tips</h3>
+                        <p>For extra richness, replace 1/4 cup milk with heavy cream. Add a pinch of cinnamon or cayenne for a flavor twist. Use a milk frother before serving for a luxurious texture.</p>
+                    </div>
+                    <button class="toggle-recipe">View Recipe <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+            
+            <!-- Iced Sakura Tea -->
+            <div class="recipe-card iced-sakura-tea" data-category="drinks">
+                <div class="recipe-image">
+                    <!-- Background set via CSS -->
+                </div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Iced Sakura Tea</h3>
+                    <p class="recipe-description">A floral and refreshing Japanese-inspired tea.</p>
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul>
+                            <li>2 tsp sakura (cherry blossom) tea leaves or 2 sakura tea bags</li>
+                            <li>2 cups hot water</li>
+                            <li>1-2 tsp honey or simple syrup (optional)</li>
+                            <li>Ice cubes</li>
+                            <li>Optional: lemon slices for garnish</li>
+                            <li>Optional: edible cherry blossoms for decoration</li>
+                        </ul>
+                        <h3>Instructions</h3>
+                        <ol>
+                            <li>Steep sakura tea in hot water for 3-5 minutes (adjust to taste)</li>
+                            <li>Remove tea leaves/bags and let cool to room temperature.</li>
+                            <li>Sweeten if desired while tea is still warm.</li>
+                            <li>Refrigerate until chilled (at least 1 hour)</li>
+                            <li>Fill glasses with ice and pour chilled tea over.</li>
+                            <li>Garnish with lemon slices or edible cherry blossoms.</li>
+                        </ol>
+                        <h3>Tips</h3>
+                        <p>For salted sakura tea (traditional style), use preserved sakura flowers (rinse first to remove excess salt). The tea can be made in advance and stored refrigerated for 2-3 days.</p>
+                    </div>
+                    <button class="toggle-recipe">View Recipe <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <h2 id="desserts" style="margin: 40px 0 20px; color: #8c6a5a;">Delightful Desserts</h2>
+        <div class="recipes-container">
+            <!-- Croissant -->
+            <div class="recipe-card croissant" data-category="desserts">
+            <div class="recipe-image">
+                    <!-- Background set via CSS -->
+                </div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Classic French Croissant</h3>
+                    <p class="recipe-description">Flaky, buttery layers that define French pastry perfection.</p>
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul>
+                            <li>4 cups (500g) bread flour</li>
+                            <li>1/3 cup (70g) sugar</li>
+                            <li>2 tsp (10g) salt</li>
+                            <li>1 tbsp (10g) instant yeast</li>
+                            <li>1 1/4 cups (300ml) cold milk</li>
+                            <li>1 1/4 cups (280g) unsalted butter, cold</li>
+                            <li>1 egg (for egg wash)</li>
+                        </ul>
+                        <h3>Instructions</h3>
+                        <ol>
+                            <li>Make dough: mix flour, sugar, salt, yeast. Add milk and mix until shaggy dough forms. Knead 5 min. Rest 30 min.</li>
+                            <li>Prepare butter block: pound cold butter between parchment to 7" square. Chill.</li>
+                            <li>Laminate: roll dough to 10" square. Place butter diagonally, fold corners over. Roll to 8x24", fold in thirds (letter fold). Chill 30 min.</li>
+                            <li>Repeat rolling and folding 2 more times, chilling between folds.</li>
+                            <li>Final roll: roll to 8x40", trim edges, cut triangles (10" base, 5" sides)</li>
+                            <li>Shape: stretch triangles slightly, roll from base to tip. Curve into crescent.</li>
+                            <li>Proof: 2-3 hours at room temp until doubled.</li>
+                            <li>Bake: egg wash, bake at 400°F (200°C) 15-18 min until golden.</li>
+                        </ol>
+                        <h3>Tips</h3>
+                        <p>Keep everything cold - work quickly and chill between steps. Quality butter (82% fat) is essential. For best results, make over 2 days (overnight fridge rest after shaping).</p>
+                    </div>
+                    <button class="toggle-recipe">View Recipe <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+            
+            <!-- Petit Pain -->
+            <div class="recipe-card petit-pain" data-category="desserts">
+                <div class="recipe-image">
+                    <!-- Background set via CSS -->
+                </div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Petit Pain au Chocolat</h3>
+                    <p class="recipe-description">Mini chocolate-filled French pastries, perfect with coffee.</p>
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul>
+                            <li>1 batch croissant dough (see croissant recipe)</li>
+                            <li>8 oz (225g) dark chocolate batons or bars cut into sticks</li>
+                            <li>1 egg (for egg wash)</li>
+                            <li>Optional: pearl sugar for topping</li>
+                        </ul>
+                        <h3>Instructions</h3>
+                        <ol>
+                            <li>Prepare croissant dough through the lamination process.</li>
+                            <li>Roll dough to 8x24" rectangle, trim edges.</li>
+                            <li>Cut into 4x6" rectangles (12 total)</li>
+                            <li>Place 2 chocolate batons at one end of each rectangle.</li>
+                            <li>Roll up tightly, seal edge with slight pressure.</li>
+                            <li>Place seam-side down on baking sheet, curve slightly.</li>
+                            <li>Proof 2-3 hours at room temp until puffy.</li>
+                            <li>Egg wash, bake at 375°F (190°C) 15-18 min until golden.</li>
+                        </ol>
+                        <h3>Tips</h3>
+                        <p>Use high-quality chocolate with at least 60% cacao. For extra shine, brush with simple syrup after baking. These freeze well before baking - add 10 min to proof time when baking from frozen.</p>
+                    </div>
+                    <button class="toggle-recipe">View Recipe <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+            
+            <!-- Korean Honey Cookie -->
+            <div class="recipe-card korean-honey-cookie" data-category="desserts">
+                <div class="recipe-image">
+                    <!-- Background set via CSS -->
+                </div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Korean Honey Butter Cookies</h3>
+                    <p class="recipe-description">Crispy, buttery cookies with a honey glaze - popular Korean café treat.</p>
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul>
+                            <li>1/2 cup (115g) unsalted butter, softened</li>
+                            <li>1/4 cup (50g) granulated sugar</li>
+                            <li>1/4 cup (60ml) honey</li>
+                            <li>1 egg yolk</li>
+                            <li>1 1/2 cups (190g) all-purpose flour</li>
+                            <li>1/4 tsp salt</li>
+                            <li>1/2 tsp vanilla extract</li>
+                            <li>Optional: 1/4 cup chopped nuts (almonds, walnuts)</li>
+                            <li>Glaze: 2 tbsp honey + 1 tbsp melted butter</li>
+                        </ul>
+                        <h3>Instructions</h3>
+                        <ol>
+                            <li>Cream butter and sugar until light and fluffy.</li>
+                            <li>Add honey, egg yolk, and vanilla; mix well.</li>
+                            <li>Sift in flour and salt, mix until just combined.</li>
+                            <li>Fold in nuts if using.</li>
+                            <li>Roll dough into 1" balls, place on baking sheet.</li>
+                            <li>Flatten slightly with palm or glass bottom.</li>
+                            <li>Bake at 350°F (175°C) for 12-15 min until edges golden.</li>
+                            <li>While warm, brush with honey-butter glaze.</li>
+                            <li>Cool completely before serving.</li>
+                        </ol>
+                        <h3>Tips</h3>
+                        <p>Dough can be chilled 30 min for easier handling. For variation, add 1 tsp cinnamon to dough. Store in airtight container - they get crispier over time!</p>
+                    </div>
+                    <button class="toggle-recipe">View Recipe <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+            
+            <!-- Mochi -->
+            <div class="recipe-card mochi" data-category="desserts">
+                <div class="recipe-image">
+                    <!-- Background set via CSS -->
+                </div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Strawberry Daifuku Mochi</h3>
+                    <p class="recipe-description">Soft, chewy rice cakes filled with sweet red bean paste and fresh strawberry.</p>
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul>
+                        <li>1 cup (130g) mochiko (sweet rice flour)</li>
+                            <li>1/4 cup (50g) sugar</li>
+                            <li>3/4 cup (180ml) water</li>
+                            <li>Cornstarch or potato starch for dusting</li>
+                            <li>6 small strawberries, hulled</li>
+                            <li>6 tbsp sweet red bean paste (anko)</li>
+                            <li>Optional: food coloring (pink or green)</li>
+                        </ul>
+                        <h3>Instructions</h3>
+                        <ol>
+                            <li>Mix mochiko, sugar, and water in microwave-safe bowl until smooth.</li>
+                            <li>Cover with plastic wrap, microwave 1 min. Stir, then microwave 30 sec intervals until translucent (2-3 min total).</li>
+                            <li>Dust surface with starch, transfer hot mochi. Dust top, roll to 1/4" thickness.</li>
+                            <li>Cut into 6 squares or circles (4-5" diameter)</li>
+                            <li>Wrap each strawberry with 1 tbsp red bean paste.</li>
+                            <li>Place filled strawberry in center of mochi, gather edges to enclose.</li>
+                            <li>Pinch to seal, dust with starch to prevent sticking.</li>
+                            <li>Serve same day for best texture.</li>
+                        </ol>
+                        <h3>Tips</h3>
+                        <p>Work quickly while mochi is warm (it gets harder to handle as it cools). If strawberries are large, cut in half. For variation, try with mango or matcha-flavored mochi.</p>
+                    </div>
+                    <button class="toggle-recipe">View Recipe <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+            
+            <!-- Cheesecake -->
+            <div class="recipe-card cheesecake" data-category="desserts">
+                <div class="recipe-image">
+                    <!-- Background set via CSS -->
+                </div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Japanese Cotton Cheesecake</h3>
+                    <p class="recipe-description">Light, fluffy cheesecake with a delicate texture and subtle sweetness.</p>
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul>
+                            <li>5 oz (140g) cream cheese, softened</li>
+                            <li>2 tbsp (30g) unsalted butter</li>
+                            <li>1/4 cup (60ml) milk</li>
+                            <li>3 egg yolks</li>
+                            <li>1/4 cup (30g) cake flour</li>
+                            <li>1 tbsp (10g) cornstarch</li>
+                            <li>3 egg whites</li>
+                            <li>1/4 cup (50g) sugar</li>
+                            <li>1/4 tsp cream of tartar</li>
+                            <li>1/2 tsp vanilla extract</li>
+                        </ul>
+                        <h3>Instructions</h3>
+                        <ol>
+                            <li>Preheat oven to 320°F (160°C). Line 6" round pan with parchment.</li>
+                            <li>Heat cream cheese, butter, and milk over double boiler until smooth. Cool slightly.</li>
+                            <li>Whisk in egg yolks one at a time, then vanilla.</li>
+                            <li>Sift in flour and cornstarch, mix until smooth.</li>
+                            <li>In separate bowl, beat egg whites with cream of tartar until foamy. Gradually add sugar, beat to soft peaks.</li>
+                            <li>Fold 1/3 meringue into batter, then gently fold in remainder.</li>
+                            <li>Pour into prepared pan. Place in larger pan, add hot water to come halfway up sides.</li>
+                            <li>Bake 50-60 min until golden and set (center should jiggle slightly)</li>
+                            <li>Turn off oven, leave door ajar 10 min. Cool completely in pan before removing.</li>
+                        </ol>
+                        <h3>Tips</h3>
+                        <p>Room temperature ingredients blend better. For taller cake, use 7" pan and reduce baking time. Chill before serving for cleaner slices. Top with powdered sugar or fresh berries.</p>
+                    </div>
+                    <button class="toggle-recipe">View Recipe <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer id="contact">
+        <div class="footer-content">
+            <h2>Lumi Coffee Service</h2>
+            <p>Bringing different coffee cultures to your home kitchen since 2025</p>
+            <div class="social-icons">
+                <a href="https://instagram.com/abcdefghijk_m_opqrstuvwxyz07" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://youtube.com/@lylyna-u8c" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="mailto:lalina103la@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p>&copy; 2025 Lumi Coffee Service. All recipes tested and developed with love. ENJOY !!</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Toggle recipe details
+        document.querySelectorAll('.toggle-recipe').forEach(button => {
+            button.addEventListener('click', function() {
+                const recipeCard = this.closest('.recipe-card');
+                const details = recipeCard.querySelector('.recipe-details');
+                const icon = this.querySelector('i');
+                
+                if (details.style.display === 'block') {
+                    details.style.display = 'none';
+                    recipeCard.classList.remove('active');
+                } else {
+                    details.style.display = 'block';
+                    recipeCard.classList.add('active');
+                }
+            });
+        });
+        
+        // Filter recipes by category
+        document.querySelectorAll('.category-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                const category = this.dataset.category;
+                const recipes = document.querySelectorAll('.recipe-card');
+                
+                recipes.forEach(recipe => {
+                    if (category === 'all' || recipe.dataset.category === category) {
+                        recipe.style.display = 'block';
+                    } else {
+                        recipe.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+      
+        window.addEventListener('scroll', function() {
+            const intro = document.querySelector('.intro');
+            const introPosition = intro.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.3;
+            
+            if (introPosition < screenPosition) {
+                intro.classList.add('floating');
+            }
+        });
+    </script>
+</body>
+</html>
